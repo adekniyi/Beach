@@ -1,12 +1,13 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Beachapp.Models
+namespace Beachapp.Dtos
 {
-    public class Beach
+    public class BeachDto
     {
-        public int BeachId { get; set; }
+         public int BeachId { get; set; }
         [Required]
 
         public string BeachName { get; set; }
@@ -17,6 +18,6 @@ namespace Beachapp.Models
         [Display(Name = "Beach Picture")]
         public string BeachPicture { get; set; }
 
-        public string ImageFile { get; set; }
+        public IFormFile ImageFile { get; set; }
     }
 }

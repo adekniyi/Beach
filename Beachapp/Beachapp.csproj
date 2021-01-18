@@ -26,5 +26,7 @@
   <ItemGroup>
     <Folder Include="ViewModel\" />
     <Folder Include="Views\Beach\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="wwwroot\Image\" />
   </ItemGroup>
 </Project>

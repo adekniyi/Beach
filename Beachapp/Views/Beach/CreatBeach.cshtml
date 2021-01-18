@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Beachapp.Dtos.BeachDto;
+
 @{
+    ViewData["Title"] = "Beach form";
+}
+
+<h1>New Beach</h1>
+
+@using (Html.BeginForm("Create", "Beach"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.BeachName)
+        @Html.TextBoxFor(m => m.BeachName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.BeachName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BeachDetails)
+        @Html.TextBoxFor(m => m.BeachDetails,new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.BeachDetails)
+    </div>
+  <div class="form-group">
+        @Html.LabelFor(m => m.BeachPicture)
+        <div class="col-md-10">
+         <input type="file" name="ImageFile" required></div>
+    </div>
+  
+    @Html.HiddenFor(m => m.BeachId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Create</button>
 }

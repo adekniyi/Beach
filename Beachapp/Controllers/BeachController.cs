@@ -21,6 +21,9 @@ namespace Beachapp.Controllers
                     BeachId=1,BeachPicture="url"},
                 new Beach{BeachName="Elegushi beach",
                     BeachDetails="lorem hda dahjdeood haskjeu akjdjufr adhfncfjkad hafhemadfdfna",
+                    BeachId=2,BeachPicture="url"},
+                new Beach{BeachName="New Fresh beach",
+                    BeachDetails="lorem hda dahjdeood haskjeu akjdjufr adhfncfjkad hafhemadfdfna",
                     BeachId=2,BeachPicture="url"}
             };
             return View(beaches);

@@ -7,23 +7,21 @@
 <h1>Lists of Beaches</h1>
 <a asp-controller="Beach" asp-action="CreatBeach" class="btn btn-primary btn-group-lg mb-5">New Beach</a>
 
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Beach Name</th>
-            <th>Beach Details</th>
-            <th>Beach Image</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var beach in Model)
-        {
-        <tr>
-            <td>@beach.BeachName</td>
-            <td>@beach.BeachDetails</td>
-            <td>@beach.BeachPicture</td>
-        </tr>
 
-        }
-    </tbody>
-</table>
+ <div class="container">
+          <div class="row">
+@foreach(var beach in Model)
+{
+              <div class="col-6 col-md-4 col-sm-8">
+                  <div class="card">
+                    <img class="card-img-top" src="~image/niyi.jpg" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">@beach.BeachName</h5>
+                        <p class="card-text ">@beach.BeachDetails</p>
+                        <a href="#" class="btn btn-primary">Know more</a>
+                      </div>
+                  </div>
+              </div>
+}
+          </div>
+     </div>
