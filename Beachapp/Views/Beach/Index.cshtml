@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Beachapp.Models.Beach>
+
+@{
+    ViewData["Title"] = "Beach Page";
+}
+
+<h1>Lists of Beaches</h1>
+<a asp-controller="Beach" asp-action="CreatBeach" class="btn btn-primary btn-group-lg mb-5">New Beach</a>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Beach Name</th>
+            <th>Beach Details</th>
+            <th>Beach Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var beach in Model)
+        {
+        <tr>
+            <td>@beach.BeachName</td>
+            <td>@beach.BeachDetails</td>
+            <td>@beach.BeachPicture</td>
+        </tr>
+
+        }
+    </tbody>
+</table>
