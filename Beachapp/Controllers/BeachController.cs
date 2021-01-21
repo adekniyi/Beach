@@ -71,5 +71,19 @@ namespace Beachapp.Controllers
 
             return RedirectToAction("Index","Beach");
         }
+
+
+          [Route("GetABeach/{id}")]
+          public IActionResult GetABeach(int id)
+        {
+            var beach = _context.Beaches.SingleOrDefault(c => c.BeachId == id);
+
+             if (beach == null)
+               {
+                return NotFound();
+               };
+
+            return View(beach);
+        }
     }
 }

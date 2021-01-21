@@ -1,0 +1,17 @@
+﻿@model Beachapp.Models.Beach
+
+@{
+    ViewData["Title"] = "Beach Page";
+    var photoPath = "~/Image/" +(Model.PhotoPath ?? "niyi.jpg");
+}
+
+<h1 class="text-center mb-3">@Model.BeachName</h1>
+
+<div class="card mb-3">
+  <img class="card-img-top" src="@photoPath" asp-append-version="true" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title text-center">@Model.BeachName</h4>
+    <p class="card-text">@Model.BeachDetails</p>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Beachapp.Models.Beach>
 
 @{
-    ViewData["Title"] = "Beach Page";
+    ViewData["Title"] = "List of Beaches Page";
 }
 
 <h1>Lists of Beaches</h1>
@@ -19,7 +19,7 @@
                       <div class="card-body">
                         <h5 class="card-title">@beach.BeachName</h5>
                         <p class="card-text ">@beach.BeachDetails</p>
-                        <a href="#" class="btn btn-primary">Know more</a>
+                        <a asp-action="GetABeach" asp-controller="Beach"  asp-route-id="@beach.BeachId" class="btn btn-primary">Know more</a>
                       </div>
                   </div>
               </div>
