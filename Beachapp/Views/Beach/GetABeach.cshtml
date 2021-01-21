@@ -13,5 +13,11 @@
     <h4 class="card-title text-center">@Model.BeachName</h4>
     <p class="card-text">@Model.BeachDetails</p>
     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-  </div>
+<div class="btn-group">
+    <a asp-controller="Beach" asp-action="EditBeach" asp-route-BeachId="@Model.BeachId" class="btn btn-outline-secondary mr-2">Edit Beach</a>
+    <form method="post" enctype="multipart/form-data" asp-action="DeleteBeach" asp-controller="Beach" asp-route-BeachId="@Model.BeachId">
+        <input type="submit" value="Delete Beach" class="btn btn-outline-danger" />
+    </form>
+</div>
+ </div>
 </div>

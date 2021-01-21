@@ -59,24 +59,32 @@ namespace Beachapp.Controllers
              model.BeachPicture.CopyTo(new FileStream(filePath, FileMode.Create));
             }
 
-             var beach = new Beach
+            if(model.BeachId == 0){
+                 var beach = new Beach
               {
                  BeachName = model.BeachName,
                  BeachDetails = model.BeachDetails,
                  PhotoPath = uniqueFileName
               };
+                _context.Beaches.Add(beach);
+            }else{
+                 var beachInDb = _context.Beaches.Single(c => c.BeachId == model.BeachId);
 
-             _context.Beaches.Add(beach);
+                beachInDb.BeachName = model.BeachName;
+                beachInDb.BeachDetails = model.BeachDetails;
+                beachInDb.PhotoPath = uniqueFileName;
+            };
+
              _context.SaveChanges();
 
             return RedirectToAction("Index","Beach");
         }
 
 
-          [Route("GetABeach/{id}")]
-          public IActionResult GetABeach(int id)
+          [Route("GetABeach/{BeachId}")]
+          public IActionResult GetABeach(int BeachId)
         {
-            var beach = _context.Beaches.SingleOrDefault(c => c.BeachId == id);
+            var beach = _context.Beaches.SingleOrDefault(c => c.BeachId == BeachId);
 
              if (beach == null)
                {
@@ -84,6 +92,38 @@ namespace Beachapp.Controllers
                };
 
             return View(beach);
+        }
+
+         [Route("Edit/{BeachId}")]
+        public ActionResult EditBeach(int BeachId)
+        {
+            var beach = _context.Beaches.SingleOrDefault(c => c.BeachId == BeachId);
+            if (beach == null)
+                return NotFound();
+            var beachView = new BeachDto
+            {
+                BeachId = beach.BeachId,
+                BeachName = beach.BeachName,
+                BeachDetails = beach.BeachDetails,
+            };
+
+            return View("CreatBeach", beachView);
+        }
+
+         [HttpPost]
+        [Route("Delete/{BeachId}")]
+        public ActionResult DeleteBeach(int BeachId)
+        {
+            var beach = _context.Beaches.SingleOrDefault(c => c.BeachId == BeachId);
+            if (beach == null)
+                {
+                    return NotFound();
+                }
+
+           _context.Beaches.Remove(beach);
+            _context.SaveChanges();
+
+             return RedirectToAction("Index","Beach");
         }
     }
 }
