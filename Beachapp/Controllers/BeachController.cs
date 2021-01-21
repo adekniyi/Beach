@@ -24,22 +24,13 @@ namespace Beachapp.Controllers
             IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var beaches = new List<Beach>
-            {
-                new Beach{BeachName="Oniru beach",
-                    BeachDetails="lorem hda dahjdeood haskjeu akjdjufr adhfncfjkad hafhemadfdfna",
-                    BeachId=1},
-                new Beach{BeachName="Elegushi beach",
-                    BeachDetails="lorem hda dahjdeood haskjeu akjdjufr adhfncfjkad hafhemadfdfna",
-                    BeachId=2},
-                new Beach{BeachName="New Fresh beach",
-                    BeachDetails="lorem hda dahjdeood haskjeu akjdjufr adhfncfjkad hafhemadfdfna",
-                    BeachId=2}
-            };
+            var beaches = _context.Beaches.ToList();
+
             return View(beaches);
         }
 
@@ -75,6 +66,8 @@ namespace Beachapp.Controllers
                  PhotoPath = uniqueFileName
               };
 
+             _context.Beaches.Add(beach);
+             _context.SaveChanges();
 
             return RedirectToAction("Index","Beach");
         }
