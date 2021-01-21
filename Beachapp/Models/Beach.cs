@@ -8,15 +8,13 @@ namespace Beachapp.Models
     {
         public int BeachId { get; set; }
         [Required]
-
+        [Display(Name = "Beach Name")]
         public string BeachName { get; set; }
         [Required]
         [Display(Name = "Beach Details")]
         public string BeachDetails { get; set; }
         [Required]
         [Display(Name = "Beach Picture")]
-        public string BeachPicture { get; set; }
-
-        public string ImageFile { get; set; }
+        public string PhotoPath { get; set; }
     }
 }

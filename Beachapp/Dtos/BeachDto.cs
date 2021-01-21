@@ -9,15 +9,15 @@ namespace Beachapp.Dtos
     {
          public int BeachId { get; set; }
         [Required]
-
+        [Display(Name = "Beach Name")]
         public string BeachName { get; set; }
         [Required]
         [Display(Name = "Beach Details")]
         public string BeachDetails { get; set; }
         [Required]
         [Display(Name = "Beach Picture")]
-        public string BeachPicture { get; set; }
+        public IFormFile BeachPicture { get; set; }
 
-        public IFormFile ImageFile { get; set; }
+        //public IFormFile ImageFile { get; set; }
     }
 }

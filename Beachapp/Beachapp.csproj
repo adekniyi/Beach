@@ -21,6 +21,7 @@
     </PackageReference>
     <PackageReference Include="NUnit" Version="3.13.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.14.0" />
   </ItemGroup>
 
   <ItemGroup>

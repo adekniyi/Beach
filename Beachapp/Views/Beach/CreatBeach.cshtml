@@ -4,27 +4,35 @@
     ViewData["Title"] = "Beach form";
 }
 
+<div class="container">
 <h1>New Beach</h1>
 
-@using (Html.BeginForm("Create", "Beach"))
-{
+
+<form method="post" enctype="multipart/form-data" asp-action="CreateBeach" asp-controller="Beach">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="form-group">
-        @Html.LabelFor(m => m.BeachName)
-        @Html.TextBoxFor(m => m.BeachName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.BeachName)
+        <label asp-for="BeachName" class="control-label"></label>
+        <input asp-for="BeachName" class="form-control" />
+        <span asp-validation-for="BeachName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BeachDetails" class="control-label"></label>
+        <input asp-for="BeachDetails" class="form-control" />
+        <span asp-validation-for="BeachDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BeachPicture" class="control-label"></label>
+        <div class="custom-file">
+            <input asp-for="BeachPicture" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+        <span asp-validation-for="BeachPicture" class="text-danger"></span>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.BeachDetails)
-        @Html.TextBoxFor(m => m.BeachDetails,new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.BeachDetails)
+        <input type="submit" value="Create" class="btn btn-primary" />
     </div>
-  <div class="form-group">
-        @Html.LabelFor(m => m.BeachPicture)
-        <div class="col-md-10">
-         <input type="file" name="ImageFile" required></div>
-    </div>
-  
-    @Html.HiddenFor(m => m.BeachId)
-    @Html.AntiForgeryToken()
-    <button type="submit" class="btn btn-primary">Create</button>
-}
+</form>
+</div>
