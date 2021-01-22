@@ -29,5 +29,6 @@
     <Folder Include="Views\Beach\" />
     <Folder Include="Dtos\" />
     <Folder Include="wwwroot\Image\" />
+    <Folder Include="Views\Account\" />
   </ItemGroup>
 </Project>

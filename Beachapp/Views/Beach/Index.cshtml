@@ -18,7 +18,13 @@
                     <img class="card-img-top" src="@photoPath" asp-append-version="true" alt="Card image cap">
                       <div class="card-body">
                         <h5 class="card-title">@beach.BeachName</h5>
-                        <p class="card-text ">@beach.BeachDetails</p>
+                        <p class="card-text ">
+                       @{
+                            string x = @beach.BeachDetails;
+                            if(x !=null&&x.Length>200)
+                              {x=x.Substring(0,250);}
+                        }
+                            @Html.Raw(x)</p>
                         <a asp-action="GetABeach" asp-controller="Beach"  asp-route-BeachId="@beach.BeachId" class="btn btn-primary">Know more</a>
                       </div>
                   </div>
