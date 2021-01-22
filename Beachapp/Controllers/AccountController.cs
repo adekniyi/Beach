@@ -63,5 +63,16 @@ namespace Beachapp.Controllers
             }
             return View(model);
         }
+
+          // POST: /Account/Logout
+        [HttpPost]
+        //[Route("Account/Logout")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
