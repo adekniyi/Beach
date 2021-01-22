@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Beachapp.Data;
+using Beachapp.Models;
+
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,9 +16,9 @@ namespace Beachapp.Controllers
     public class AccountController : Controller
     {
         private SignInManager<ApplicationUser> _signInManager;
-        private Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
 
-        public AccountController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -29,6 +31,37 @@ namespace Beachapp.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+
+          // POST: /Account/Register
+        [HttpPost]
+        //[Route("Account/Register")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { 
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                //AddErrors(result);
+
+            }
+            return View(model);
         }
     }
 }
