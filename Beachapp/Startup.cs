@@ -12,6 +12,9 @@ using Beachapp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Beachapp
 {
@@ -34,8 +37,23 @@ namespace Beachapp
 
              services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                
             }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+            {
+                options.ClientId = "659448695725-b96idvj3q0l6ttdq14m6ekfreoc2ai2v.apps.googleusercontent.com";
+                options.ClientSecret = "9yu2PqbdPmwNHWbEHRpBvne6";
+            });
+
+             services.AddAuthentication()
+               .AddFacebook(options =>
+               {
+                   options.AppId = "834588033787680";
+                   options.AppSecret = "d53229c695baa20c1ab0b55bc9fe6c1c";
+               });
 
             services.AddControllersWithViews();
             services.AddHealthChecks();

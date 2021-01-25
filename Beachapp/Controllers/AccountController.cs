@@ -79,6 +79,41 @@ namespace Beachapp.Controllers
             return View(logInViewModel);
         }
 
+
+
+         // POST: /Account/Login
+        [HttpPost]
+        //[Route("Account/Login")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,false);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+              if (result.IsLockedOut)
+            {
+                return View("Lockout");
+            }
+            if (result.IsNotAllowed)
+            {
+                return View("Not Allowed");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+        }
+
+
           // POST: /Account/Logout
         [HttpPost]
         //[Route("Account/Logout")]
