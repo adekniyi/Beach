@@ -5,9 +5,12 @@ using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Beachapp.Models;
 using Beachapp.Dtos;
 using Beachapp.Data;
+using System.Security.Claims;
+
 
 
 
@@ -19,12 +22,18 @@ namespace Beachapp.Controllers
     {
         private ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private UserManager<ApplicationUser> _userManager;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         public BeachController(ApplicationDbContext context,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
+            //_httpContextAccessor = httpContextAccessor;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -43,10 +52,14 @@ namespace Beachapp.Controllers
         [HttpPost]
            public IActionResult CreateBeach(BeachDto model)
         {
-               if(!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                return View(model);
+                return View("creatBeach",model);
             }
+
+ClaimsPrincipal currentUser = this.User;
+            var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
 
                 string uniqueFileName = null;
                if (model.BeachPicture != null)
@@ -64,7 +77,9 @@ namespace Beachapp.Controllers
               {
                  BeachName = model.BeachName,
                  BeachDetails = model.BeachDetails,
-                 PhotoPath = uniqueFileName
+                 PhotoPath = uniqueFileName,
+                 Location = model.Location,
+                 PosterId = userId
               };
                 _context.Beaches.Add(beach);
             }else{
@@ -124,6 +139,16 @@ namespace Beachapp.Controllers
             _context.SaveChanges();
 
              return RedirectToAction("Index","Beach");
+        }
+        [HttpGet]
+        public ActionResult Test()
+        {
+            //var UserName = HttpContext.User.Identity.Name;
+            //var userId = ((ClaimsIdentity)User.Identity).FindFirst("Id").Value;
+
+ClaimsPrincipal currentUser = this.User;
+var currentUserName = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return Ok(currentUserName);
         }
     }
 }

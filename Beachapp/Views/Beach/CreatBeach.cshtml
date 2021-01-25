@@ -16,13 +16,17 @@
         <input asp-for="BeachName" class="form-control" />
         <span asp-validation-for="BeachName" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="Location" class="control-label"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
 
     <div class="form-group">
         <label asp-for="BeachDetails" >Example textarea</label>
         <textarea asp-for="BeachDetails" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         <span asp-validation-for="BeachDetails" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <label asp-for="BeachPicture" class="control-label"></label>
         <div class="custom-file">
@@ -31,6 +35,7 @@
         </div>
         <span asp-validation-for="BeachPicture" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>

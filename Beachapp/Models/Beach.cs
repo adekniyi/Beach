@@ -16,5 +16,8 @@ namespace Beachapp.Models
         [Required]
         [Display(Name = "Beach Picture")]
         public string PhotoPath { get; set; }
+        [Required]
+        public string Location{get;set;}
+        public string PosterId{get;set;}
     }
 }

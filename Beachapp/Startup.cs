@@ -55,6 +55,7 @@ namespace Beachapp
                    options.AppSecret = "d53229c695baa20c1ab0b55bc9fe6c1c";
                });
 
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddHealthChecks();
             services.AddRazorPages();

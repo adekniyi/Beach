@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Beachapp.Data;
 using Beachapp.Models;
-using Microsoft.AspNet.Identity.Owin;
+//using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Owin.Security;
+//using Microsoft.Owin.Security;
 using System.Security.Claims;
 
 
@@ -138,6 +138,7 @@ namespace Beachapp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+
             var redirectUrl =  Url.Action("ExternalLoginCallback", "Account", 
                                             new { ReturnUrl = returnUrl });
             var properties = _signInManager

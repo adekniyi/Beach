@@ -7,7 +7,7 @@ namespace Beachapp.Dtos
 {
     public class BeachDto
     {
-         public int BeachId { get; set; }
+        // public int BeachId { get; set; }
         [Required]
         [Display(Name = "Beach Name")]
         public string BeachName { get; set; }
@@ -17,7 +17,8 @@ namespace Beachapp.Dtos
         [Required]
         [Display(Name = "Beach Picture")]
         public IFormFile BeachPicture { get; set; }
-
-        //public IFormFile ImageFile { get; set; }
+       // [Required]
+        public string Location{get;set;}
+        //public string PosterId{get;set;}
     }
 }
