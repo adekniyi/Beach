@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Beachapp.Data;
 using Beachapp.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Owin.Security;
+using System.Security.Claims;
+
 
 
 
@@ -124,5 +130,91 @@ namespace Beachapp.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+
+
+        //[AllowAnonymous]
+        //[Route("Account/ExternalLogin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl =  Url.Action("ExternalLoginCallback", "Account", 
+                                            new { ReturnUrl = returnUrl });
+            var properties = _signInManager
+                .ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return new ChallengeResult(provider, properties);
+        }
+
+
+          // GET: /Account/ExternalLoginCallback
+        [HttpGet]
+        //[AllowAnonymous]
+        //[Route("Account/ExternalLoginCallback")]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+
+            var loginViewModel = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await _signInManager
+                .GetExternalAuthenticationSchemesAsync()).
+                ToList()
+            };
+
+            if(remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider:{remoteError}");
+                return View("Login", loginViewModel);
+            }
+
+            var loginInfo = await _signInManager.GetExternalLoginInfoAsync();
+            if (loginInfo == null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error loading external information");
+                return RedirectToAction("Login", loginViewModel);
+            }
+
+            var result = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider,loginInfo.ProviderKey ,isPersistent: false, bypassTwoFactor:true);
+            if (result.Succeeded)
+            {
+                return LocalRedirect(returnUrl);     
+            }
+            else
+            {
+                var email = loginInfo.Principal.FindFirstValue(ClaimTypes.Email);
+
+                if(email != null)
+                {
+                    var user = await _userManager.FindByEmailAsync(email);
+
+                    if(user == null)
+                    {
+                         user = new ApplicationUser
+                        {
+                            UserName = loginInfo.Principal.FindFirstValue(ClaimTypes.Name),
+                            Email = loginInfo.Principal.FindFirstValue(ClaimTypes.Email),
+                        };
+                       
+                        await _userManager.CreateAsync(user);
+                    }
+
+                    await _userManager.AddLoginAsync(user, loginInfo);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return LocalRedirect(returnUrl);
+                }
+
+                ViewBag.ErrorTitle = $"Email claim not recieved from {loginInfo.LoginProvider}";
+                ViewBag.ErrorMessage = "Please confirm support on adekniyi@gmail.com";
+
+                return View("Login", loginViewModel);
+            }
+
+           // return View("Login", loginViewModel);
+        }
+
     }
 }
