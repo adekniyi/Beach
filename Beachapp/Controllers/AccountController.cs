@@ -64,6 +64,21 @@ namespace Beachapp.Controllers
             return View(model);
         }
 
+
+         //GET: /Account/Login
+        //[AllowAnonymous]
+        //[Route("Account/Login")]
+        public async Task<ActionResult> Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            var logInViewModel = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+            return View(logInViewModel);
+        }
+
           // POST: /Account/Logout
         [HttpPost]
         //[Route("Account/Logout")]
