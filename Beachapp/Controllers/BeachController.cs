@@ -101,7 +101,7 @@ namespace Beachapp.Controllers
 
              _context.SaveChanges();
 
-            return RedirectToAction("Index","Beach");
+            return RedirectToAction("MyBeach","Beach");
         }
 
 
@@ -151,7 +151,7 @@ namespace Beachapp.Controllers
            _context.Beaches.Remove(beach);
             _context.SaveChanges();
 
-             return RedirectToAction("Index","Beach");
+             return RedirectToAction("MyBeach","Beach");
         }
         [HttpGet]
         public async Task<ActionResult> Test()
