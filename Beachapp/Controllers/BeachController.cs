@@ -43,6 +43,16 @@ namespace Beachapp.Controllers
             return View(beaches);
         }
 
+          public IActionResult MyBeach()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var beaches = _context.Beaches.Where(x=>x.PosterId == userId).ToList();
+
+            return View(beaches);
+        }
+
 
          public IActionResult CreatBeach()
         {
@@ -52,13 +62,10 @@ namespace Beachapp.Controllers
         [HttpPost]
            public IActionResult CreateBeach(BeachDto model)
         {
-            if(!ModelState.IsValid)
-            {
-                return View("creatBeach",model);
-            }
-
-ClaimsPrincipal currentUser = this.User;
+            
+            ClaimsPrincipal currentUser = this.User;
             var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userName = currentUser.FindFirst(ClaimTypes.Name).Value;
 
 
                 string uniqueFileName = null;
@@ -79,7 +86,9 @@ ClaimsPrincipal currentUser = this.User;
                  BeachDetails = model.BeachDetails,
                  PhotoPath = uniqueFileName,
                  Location = model.Location,
-                 PosterId = userId
+                 PosterId = userId,
+                 Poster = userName,
+                 CreatedAt = DateTimeOffset.Now
               };
                 _context.Beaches.Add(beach);
             }else{
@@ -141,14 +150,16 @@ ClaimsPrincipal currentUser = this.User;
              return RedirectToAction("Index","Beach");
         }
         [HttpGet]
-        public ActionResult Test()
+        public async Task<ActionResult> Test()
         {
             //var UserName = HttpContext.User.Identity.Name;
             //var userId = ((ClaimsIdentity)User.Identity).FindFirst("Id").Value;
 
 ClaimsPrincipal currentUser = this.User;
 var currentUserName = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return Ok(currentUserName);
+var user = await _userManager.FindByIdAsync(currentUserName);
+            var userName = currentUser.FindFirst(ClaimTypes.Name).Value;
+            return Ok(user);
         }
     }
 }

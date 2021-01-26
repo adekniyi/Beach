@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<Beachapp.Models.Beach>
 
 @{
-    ViewData["Title"] = "List of Beaches Page";
+    ViewData["Title"] = "List of My Beaches Page";
 }
 
-<h1>Lists Of All Beaches</h1>
+<h1>My Beaches</h1>
+<a asp-controller="Beach" asp-action="CreatBeach" class="btn btn-primary btn-group-lg mb-5">New Beach</a>
+
 
  <div class="container">
           <div class="row">

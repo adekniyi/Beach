@@ -19,5 +19,7 @@ namespace Beachapp.Models
         [Required]
         public string Location{get;set;}
         public string PosterId{get;set;}
+        public string Poster{get;set;}
+        public DateTimeOffset CreatedAt{get;set;}
     }
 }
