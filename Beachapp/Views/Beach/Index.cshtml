@@ -6,7 +6,13 @@
 
 <h1>Lists Of All Beaches</h1>
 
- <div class="container">
+@{
+    if(!Model.Any())
+     {
+        <h1>No Beach created yet pls create one</h1>
+      }
+    else{
+            <div class="container">
           <div class="row">
 @foreach(var beach in Model)
 {
@@ -31,3 +37,6 @@
 }
           </div>
      </div>
+
+        }
+}

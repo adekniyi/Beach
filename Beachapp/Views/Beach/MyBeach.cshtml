@@ -7,7 +7,12 @@
 <h1>My Beaches</h1>
 <a asp-controller="Beach" asp-action="CreatBeach" class="btn btn-primary btn-group-lg mb-5">New Beach</a>
 
-
+@{
+    if(!Model.Any())
+     {
+        <h1>You haven't create any Beach yet pls create one</h1>
+      }
+    else{
  <div class="container">
           <div class="row">
 @foreach(var beach in Model)
@@ -33,3 +38,6 @@
 }
           </div>
      </div>
+
+        }
+}

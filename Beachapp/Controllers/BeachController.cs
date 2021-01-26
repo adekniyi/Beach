@@ -108,6 +108,10 @@ namespace Beachapp.Controllers
           [Route("GetABeach/{BeachId}")]
           public IActionResult GetABeach(int BeachId)
         {
+             ClaimsPrincipal currentUser = this.User;
+            var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.userId = userId;  
             var beach = _context.Beaches.SingleOrDefault(c => c.BeachId == BeachId);
 
              if (beach == null)

@@ -13,11 +13,19 @@
     <h4 class="card-title text-center">@Model.BeachName</h4>
     <p class="card-text">@Model.BeachDetails</p>
     <p class="card-text"><small class="text-muted">@Model.CreatedAt</small></p>
-<div class="btn-group">
-    <a asp-controller="Beach" asp-action="EditBeach" asp-route-BeachId="@Model.BeachId" class="btn btn-outline-secondary mr-2">Edit Beach</a>
-    <form method="post" enctype="multipart/form-data" asp-action="DeleteBeach" asp-controller="Beach" asp-route-BeachId="@Model.BeachId">
-        <input type="submit" value="Delete Beach" class="btn btn-outline-danger" />
-    </form>
-</div>
+
+    @{
+        if(@Model.PosterId == @ViewBag.userId)
+            {
+                <div class="btn-group">
+                    <a asp-controller="Beach" asp-action="EditBeach" asp-route-BeachId="@Model.BeachId" class="btn btn-outline-secondary mr-2">Edit Beach</a>
+                    <form method="post" enctype="multipart/form-data" asp-action="DeleteBeach" asp-controller="Beach" asp-route-BeachId="@Model.BeachId">
+                        <input type="submit" value="Delete Beach" class="btn btn-outline-danger" />
+                    </form>
+                </div>
+            }else{
+            <p class="card-text"><small class="text-muted">You can't edit and delete</small></p>
+        }
+    }
  </div>
 </div>
