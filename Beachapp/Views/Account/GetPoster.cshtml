@@ -1,17 +1,61 @@
-﻿@using Beachapp.Data;
+﻿@* @using Beachapp.Data; *@
+@model Beachapp.ViewModel.DisplayViewModel;
 @{
     ViewData["Title"] = "Beach Page";
-    var photoPath = "~/Image/" +(Model.UserPicture ?? "niyi.jpg");
+    var photoPath = "~/Image/" +(Model.User.UserPicture ?? "niyi.jpg");
 }
-
-<h1>I am the poster</h1>
-<h1>@Model.UserName</h1>
 
 <div class="card mb-3">
   <img class="card-img-top" src="@photoPath" asp-append-version="true" alt="Card image cap">
   <div class="card-body">
-    <h4 class="card-title">FirstName : @Model.FirstName</h4>
-    <h4 class="card-title">LastName : @Model.LastName</h4>
-    <h4 class="card-title">Location : @Model.Location</h4>
+    <h4 class="card-title">FirstName : @Model.User.FirstName</h4>
+    <h4 class="card-title">LastName : @Model.User.LastName</h4>
+    <h4 class="card-title">Location : @Model.User.Location</h4>
  </div>
 </div>
+
+
+
+<h2 class="mb-5 text-center">List of @Model.User.FirstName @Model.User.LastName Beaches</h2>
+
+@{
+    foreach(var beach in Model.Beaches){
+        if(beach.PosterId== @ViewBag.userId)
+            {
+              <a asp-controller="Beach" asp-action="CreatBeach" class="btn btn-primary btn-group-lg mb-5">New Beach</a>    
+            }
+    }
+}
+@{
+    if(!Model.Beaches.Any())
+     {
+        <h1>You haven't create any Beach yet pls create one</h1>
+      }
+    else{
+ <div class="container">
+          <div class="row">
+@foreach(var beach in Model.Beaches)
+{
+        var photoToDis = "~/Image/" +(beach.PhotoPath ?? "niyi.jpg");
+              <div class="col-6 col-md-4 col-sm-8">
+                  <div class="card">
+                    <img class="card-img-top" src="@photoToDis" asp-append-version="true" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">@beach.BeachName</h5>
+                        <p class="card-text ">
+                       @{
+                            string x = @beach.BeachDetails;
+                            if(x !=null&&x.Length>200)
+                              {x=x.Substring(0,250);}
+                        }
+                            @Html.Raw(x)</p>
+                        <a asp-action="GetABeach" asp-controller="Beach"  asp-route-BeachId="@beach.BeachId" class="btn btn-primary">Know more</a>
+                      </div>
+                  </div>
+              </div>
+}
+          </div>
+     </div>
+
+        }
+}

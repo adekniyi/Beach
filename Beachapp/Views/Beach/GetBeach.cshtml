@@ -1,0 +1,43 @@
+@model IEnumerable<Beachapp.Models.Beach>
+
+@{
+    ViewData["Title"] = "List of My Beaches Page";
+}
+
+<h1>My Beaches</h1>
+<a asp-controller="Beach" asp-action="CreatBeach" class="btn btn-primary btn-group-lg mb-5">New Beach</a>
+
+@{
+    if(!Model.Any())
+     {
+        <h1>You haven't create any Beach yet pls create one</h1>
+      }
+    else{
+ <div class="container">
+          <div class="row">
+@foreach(var beach in Model)
+{
+        var photoPath = "~/Image/" +(beach.PhotoPath ?? "niyi.jpg");
+              <div class="col-6 col-md-4 col-sm-8">
+                  <div class="card">
+                    <img class="card-img-top" src="@photoPath" asp-append-version="true" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">@beach.BeachName</h5>
+                        <p class="card-text ">
+                       @{
+                            string x = @beach.BeachDetails;
+                            if(x !=null&&x.Length>200)
+                              {x=x.Substring(0,250);}
+                        }
+                            @Html.Raw(x)</p>
+                        <a asp-action="GetABeach" asp-controller="Beach"  asp-route-BeachId="@beach.BeachId" class="btn btn-primary">Know more</a>
+                        <a asp-action="GetPoster" asp-controller="Account"  asp-route-PosterId="@beach.PosterId" class="card-link">@beach.Poster</a>
+                      </div>
+                  </div>
+              </div>
+}
+          </div>
+     </div>
+
+        }
+}

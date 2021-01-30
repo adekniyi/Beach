@@ -11,6 +11,7 @@ using Beachapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Security.Claims;
+using Beachapp.ViewModel;
 
 
 
@@ -247,11 +248,20 @@ namespace Beachapp.Controllers
         [Route("GetPoster/{PosterId}")]
         public ActionResult GetPoster(string PosterId)
         {
+             ClaimsPrincipal currentUser = this.User;
+            var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.userId = userId;  
+            
             var user =  _userManager.FindByIdAsync(PosterId).Result;
+             var beaches = _context.Beaches.Where(x=>x.PosterId == PosterId).ToList();
 
-
+            var displayView = new DisplayViewModel{
+                User = user,
+                Beaches = beaches
+            };
             //return Ok(user);
-            return View(user);
+            return View(displayView);
         }
     }
 }

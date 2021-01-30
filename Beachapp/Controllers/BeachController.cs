@@ -55,6 +55,15 @@ namespace Beachapp.Controllers
         }
 
 
+        [Route("GetBeach/{PosterId}")]
+           public IActionResult GetBeach(string PosterId)
+        {
+            var beaches = _context.Beaches.Where(x=>x.PosterId == PosterId).ToList();
+
+            return View(beaches);
+        }
+
+
          public IActionResult CreatBeach()
         {
             return View();
