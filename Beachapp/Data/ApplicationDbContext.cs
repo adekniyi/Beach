@@ -15,5 +15,7 @@ namespace Beachapp.Data
         }
 
         public DbSet<Beach> Beaches{get;set;}
+        public DbSet<UserData> UserDatas{get;set;}
+        public DbSet<UsersData> UsersDatas{get;set;}
     }
 }

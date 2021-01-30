@@ -1,3 +1,17 @@
-﻿@page
+﻿@using Beachapp.Data;
 @{
+    ViewData["Title"] = "Beach Page";
+    var photoPath = "~/Image/" +(Model.UserPicture ?? "niyi.jpg");
 }
+
+<h1>I am the poster</h1>
+<h1>@Model.UserName</h1>
+
+<div class="card mb-3">
+  <img class="card-img-top" src="@photoPath" asp-append-version="true" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">FirstName : @Model.FirstName</h4>
+    <h4 class="card-title">LastName : @Model.LastName</h4>
+    <h4 class="card-title">Location : @Model.Location</h4>
+ </div>
+</div>

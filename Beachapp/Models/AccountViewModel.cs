@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication;
 
@@ -55,6 +56,16 @@ namespace Beachapp.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "User Picture")]
+        public IFormFile UserPicture { get; set; }
+        [Required]
+        public string Location{get;set;}
     }
 }
 

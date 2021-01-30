@@ -1,15 +1,15 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Beachapp.Data;
 using Beachapp.Models;
-//using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-//using Microsoft.Owin.Security;
 using System.Security.Claims;
 
 
@@ -23,11 +23,18 @@ namespace Beachapp.Controllers
     {
         private SignInManager<ApplicationUser> _signInManager;
         private UserManager<ApplicationUser> _userManager;
+        private ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager,
+               SignInManager<ApplicationUser> signInManager,
+               ApplicationDbContext context,
+               IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
+             _context = context;
             _signInManager = signInManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
 
@@ -48,15 +55,31 @@ namespace Beachapp.Controllers
         {
             if (ModelState.IsValid)
             {
+                  string uniqueFileName = null;
+               if (model.UserPicture != null)
+            {
+             string uploadFolder = Path.Combine(_webHostEnvironment.WebRootPath,"Image");
+             uniqueFileName = Guid.NewGuid().ToString() + "_" + model.UserPicture.FileName;
+
+            string filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+             model.UserPicture.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
                 var user = new ApplicationUser { 
                     UserName = model.Email, 
                     Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Location = model.Location,
+                    UserPicture = uniqueFileName,
                     };
+                    
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -217,5 +240,18 @@ namespace Beachapp.Controllers
            // return View("Login", loginViewModel);
         }
 
+
+
+          // GET: /Account/Register
+        //[AllowAnonymous]
+        [Route("GetPoster/{PosterId}")]
+        public ActionResult GetPoster(string PosterId)
+        {
+            var user =  _userManager.FindByIdAsync(PosterId).Result;
+
+
+            //return Ok(user);
+            return View(user);
+        }
     }
 }

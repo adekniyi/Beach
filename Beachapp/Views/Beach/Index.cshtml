@@ -30,7 +30,7 @@
                         }
                             @Html.Raw(x)</p>
                         <a asp-action="GetABeach" asp-controller="Beach"  asp-route-BeachId="@beach.BeachId" class="btn btn-primary">Know more</a>
-                        <a href="!#" class="card-link">@beach.Poster</a>
+                        <a asp-action="GetPoster" asp-controller="Account"  asp-route-PosterId="@beach.PosterId" class="card-link">@beach.Poster</a>
                       </div>
                   </div>
               </div>

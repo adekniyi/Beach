@@ -7,7 +7,7 @@ namespace Beachapp.Dtos
 {
     public class BeachDto
     {
-         public int BeachId { get; set; }
+        public int BeachId { get; set; }
         [Required]
         [Display(Name = "Beach Name")]
         public string BeachName { get; set; }

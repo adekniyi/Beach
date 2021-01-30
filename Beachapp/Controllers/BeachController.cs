@@ -9,15 +9,16 @@ using Microsoft.AspNetCore.Identity;
 using Beachapp.Models;
 using Beachapp.Dtos;
 using Beachapp.Data;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Beachapp.Controllers
 {
+[Authorize]
     public class BeachController : Controller
     {
         private ApplicationDbContext _context;
@@ -62,7 +63,6 @@ namespace Beachapp.Controllers
         [HttpPost]
            public IActionResult CreateBeach(BeachDto model)
         {
-            
             ClaimsPrincipal currentUser = this.User;
             var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userName = currentUser.FindFirst(ClaimTypes.Name).Value;
